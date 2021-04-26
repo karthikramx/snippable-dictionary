@@ -1,0 +1,5 @@
++ build a webscrapping bot to read each word, automate a google search
+  and retrieve missing attributes suchs as - useage, etymology, synonymns & 
+  antonyms
+  
++ 
