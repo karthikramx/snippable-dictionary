@@ -100,3 +100,7 @@ A_DataFrame["word"]  = A_DataFrame.apply(lambda word : word["WTM"].split('(')[0]
 A_DataFrame["wtype"] = A_DataFrame.apply(lambda word : word["WTM"].split("(")[1].split(")")[0], axis = 1) 
 A_DataFrame["meaning"] = A_DataFrame.apply(lambda word : word["WTM"].split(')')[1], axis = 1)
 A_DataFrame.drop(["WTM"] , axis=1, inplace=True)
+
+x = A_DataFrame.columns.values
+repeat_series = A_DataFrame["word"].value_counts()
+unique_words = A_DataFrame["word"].unique()
