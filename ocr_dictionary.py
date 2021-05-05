@@ -14,7 +14,7 @@ def get_word_type(input_word):
 
 
 result = pytesseract.image_to_string('C:/Users/karthik/Desktop/CSV-Format-English-Dictionary/resources/OCR/development.png')
-print("RESULT FROM TESSERACT: {}".format(result))
+print("RESULT FROM PY-TESSERACT: {}".format(result))
 word = result.split("\n")[0].capitalize()
 word = ''.join(e for e in word if e.isalnum())
 print("WORD: {}".format(word))
