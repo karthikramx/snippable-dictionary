@@ -1,18 +1,28 @@
 """
-code from SO thread: https://stackoverflow.com/questions/49901928/how-to-take-a-screenshot-with-python-using-a-click-and-drag-method-like-snipping/61603758#61603758
-code credits to SO user: Brett Lapierre
+WORD POWER
+Author : Karthik Ram
+
+Credits:
++ code from SO thread: https://stackoverflow.com/questions/49901928/how-to-take-a-screenshot-with-python-using-a-click-and-drag-method-like-snipping/61603758#61603758
++ code credits to SO user: Brett Lapierre
++ pytesseract - python dictionary that perform ocr on snipper images to extract word form an image
 """
 
 from tkinter import *
+from tkinter import messagebox
+
 import pyautogui
 
 import datetime
 
 import pytesseract
 import pandas as pd
+import pyttsx3
+
+background_color = "#fc4445"
 
 
-class Application():
+class Application:
     def __init__(self, master):
         self.master = master
         self.rect = None
@@ -21,7 +31,8 @@ class Application():
         self.start_y = None
         self.curX = None
         self.curY = None
-
+        self.self_word = ""
+        self.engine = pyttsx3.init()
         # root.configure(background = 'red')
         # root.attributes("-transparentcolor","red")
 
@@ -29,21 +40,36 @@ class Application():
         root.geometry('400x400+200+200')  # set new geometry
         root.title('WORD POWER')
 
-        self.menu_frame = Frame(master, bg="#0080ff")
+        self.menu_frame = Frame(master, bg="#747474")
         self.menu_frame.pack(fill=X, expand=NO, side=TOP)
 
         self.buttonBar = Frame(self.menu_frame, bg="")
         self.buttonBar.pack(fill=BOTH, expand=NO)
 
-        self.snipButton = Button(self.buttonBar, text="SNIP WORD", command=self.createScreenCanvas, background="#b3ccff")
-        self.snipButton.pack( expand=True)
+        self.snipButton = Button(self.buttonBar, font=('System', 11), text="SNIP WORD",
+                                 command=self.createScreenCanvas, background="#8e8d8a", fg='white')
+        self.snipButton.pack(side=LEFT, expand=True)
 
-        self.word_info_frame = LabelFrame(master, bg="#0080ff", text='Word information', borderwidth=5)
+        self.pronounce_button = Button(self.buttonBar, font=('System', 11), text="PRONOUNCE WORD",
+                                       command=self.pronounce_word, background="#8e8d8a", fg='white')
+        self.pronounce_button.pack(side=LEFT, expand=True)
+
+        self.settings_button = Button(self.buttonBar, font=('System', 11), text="Settings",
+                                      command=self.pronounce_word, background="#8e8d8a", fg='white')
+        self.settings_button.pack(side=LEFT, expand=True)
+
+        self.about_button = Button(self.buttonBar, font=('System', 11), text=" i ",
+                                   command=self.about, background="#8e8d8a", fg='white')
+        self.about_button.pack(side=LEFT, expand=True)
+
+        self.word_info_frame = LabelFrame(master, font=('System', 11), bg=background_color, text='Word Information',
+                                          borderwidth=4, fg='white')
         self.word_info_frame.pack(fill=BOTH, expand=True, side=BOTTOM)
 
-        self.word_info_text = Text(self.word_info_frame, bg="#0080ff")
-        self.word_info_text.insert(INSERT, "Hello.....")
-        self.word_info_text.insert(END, "Bye Bye.....")
+        self.word_info_text = Text(self.word_info_frame, font=('System', 11), bg=background_color, fg='white',
+                                   borderwidth=0)
+        self.word_info_text.insert(INSERT,
+                                   "\nWelcome user \n\nSnip any word on your screen to get its meaning")
         self.word_info_text.pack()
 
         self.master_screen = Toplevel(root)
@@ -57,9 +83,16 @@ class Application():
 
         self.last_snipped_file = None
 
+    def about(self):
+        messagebox.showinfo("About",
+                            "Created by Karthik Ram.\nFind source code:https://github.com/karthikramx/CSV-Format-English-Dictionary")
+
+    def pronounce_word(self):
+        self.engine.say(self.self_word)
+        self.engine.runAndWait()
+
     def clear_word_info(self):
         self.word_info_text.delete("1.0", "end")
-
 
     def get_word_meaning(self, input_word):
         try:
@@ -140,6 +173,7 @@ class Application():
         word = ''.join(e for e in result if e.isalnum())
         word = word.lower()
         print("WORD AFTER ISALNUM:{}".format(word))
+        self.self_word = word
         word_meaning = self.get_word_meaning(word)
         word_meaning = word_meaning.replace(";", "\n")
         word_type = self.get_word_type(word)

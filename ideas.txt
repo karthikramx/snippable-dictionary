@@ -1,4 +1,5 @@
 TODO
++ Add background image : https://www.geeksforgeeks.org/how-to-use-images-as-backgrounds-in-tkinter/
 + build a webscrapping bot to read each word, automate a google search
   and retrieve missing attributes suchs as - useage, etymology, synonymns & 
   antonyms
@@ -7,6 +8,7 @@ TODO
 + add word pronunciation - audio
 + add word translation
 + setting button - with settings to configure
++ covert to exe: https://www.geeksforgeeks.org/convert-python-script-to-exe-file/
 
 DONE
 + Add snipping tool
