@@ -101,6 +101,8 @@ A_DataFrame["wtype"] = A_DataFrame.apply(lambda word : word["WTM"].split("(")[1]
 A_DataFrame["meaning"] = A_DataFrame.apply(lambda word : word["WTM"].split(')')[1], axis = 1)
 A_DataFrame.drop(["WTM"] , axis=1, inplace=True)
 
+A_DataFrame["word"] = A_DataFrame.apply( lambda  word : word["word"].lower(), axis = 1)
+
 A_DataFrame.to_csv('English_dictionary.csv')
 A_DataFrame.shape
 A_DataFrame["Index"]
@@ -108,4 +110,6 @@ A_DataFrame["Index"]
 x = A_DataFrame.columns.values
 repeat_series = A_DataFrame["word"].value_counts()
 unique_words = A_DataFrame["word"].unique()
+
+
 

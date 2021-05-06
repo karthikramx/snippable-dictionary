@@ -7,8 +7,6 @@ import pytesseract
 import pandas as pd
 
 
-
-
 class Application():
     def __init__(self, master):
         self.master = master
@@ -23,7 +21,7 @@ class Application():
         # root.attributes("-transparentcolor","red")
 
         root.attributes("-transparent", "blue")
-        root.geometry('400x50+200+200')  # set new geometry
+        root.geometry('400x400+200+200')  # set new geometry
         root.title('Lil Snippy')
         self.menu_frame = Frame(master, bg="blue")
         self.menu_frame.pack(fill=BOTH, expand=YES)
@@ -46,10 +44,20 @@ class Application():
         self.last_snipped_file = None
 
     def get_word_meaning(self, input_word):
-        return self.dictionary.loc[self.dictionary['word'] == input_word].meaning.iloc[0]
+        try:
+            word_meaning = self.dictionary.loc[self.dictionary['word'] == input_word].meaning.iloc[0]
+        except Exception as e:
+            print("Exception :{}".format(e))
+            word_meaning = "Couldn't find word meaning of {}. Please try again".format(input_word)
+        return word_meaning
 
     def get_word_type(self, input_word):
-        return self.dictionary.loc[self.dictionary['word'] == input_word].wtype.iloc[0]
+        try:
+            word_type = self.dictionary.loc[self.dictionary['word'] == input_word].wtype.iloc[0]
+        except Exception as e:
+            print("Exception :{}".format(e))
+            word_type = "Couldn't find word type of {}. Please try again".format(input_word)
+        return word_type
 
     def takeBoundedScreenShot(self, x1, y1, x2, y2):
         im = pyautogui.screenshot(region=(x1, y1, x2, y2))
@@ -58,7 +66,6 @@ class Application():
         im.save("resources/OCR/" + fileName + ".png")
         self.last_snipped_file = fileName
         print("Snipped file name: {}".format(fileName))
-
 
     def createScreenCanvas(self):
         self.master_screen.deiconify()
@@ -104,22 +111,22 @@ class Application():
         self.master_screen.withdraw()
         root.deiconify()
         snipped_word_path = 'C:/Users/karthik/Desktop/CSV-Format-English-Dictionary/resources/OCR/' + self.last_snipped_file + '.png'
-        print("Snipper word path: {}".format(snipped_word_path))
+        self.word_power(snipped_word_path)
 
+    def word_power(self, snipped_word_path):
+        print("Snipper word path: {}".format(snipped_word_path))
         result = pytesseract.image_to_string(snipped_word_path)
         print("RESULT FROM PY-TESSERACT: {}".format(result))
         result.replace("\n", "")
         result.replace(" ", "")
-        word = result.capitalize()
-        word = ''.join(e for e in word if e.isalnum())
-        print("WORD: {}".format(word))
-
-        meaning = self.get_word_meaning(word)
-        meaning = meaning.replace(";", "\n")
-        type = self.get_word_type(word)
-
-        print("MEANING:\n {}".format(meaning))
-        print("WORD TYPE: {}".format(type))
+        word = ''.join(e for e in result if e.isalnum())
+        word = word.lower()
+        print("WORD AFTER ISALNUM:{}".format(word))
+        word_meaning = self.get_word_meaning(word)
+        word_meaning = word_meaning.replace(";", "\n")
+        word_type = self.get_word_type(word)
+        print("MEANING:\n {}".format(word_meaning))
+        print("WORD TYPE: {}".format(word_type))
 
     def exit_application(self):
         print("Application exit")

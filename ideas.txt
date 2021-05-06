@@ -1,5 +1,13 @@
+TODO
 + build a webscrapping bot to read each word, automate a google search
   and retrieve missing attributes suchs as - useage, etymology, synonymns & 
   antonyms
-  
-+ 
++ Better UI to show all details of the word meaning
++ added a special key to enable ocr-dict / app run in background
++ add word pronunciation - audio
++ add word translation
++ setting button - with settings to configure
+
+DONE
++ Add snipping tool
++ Perform OCR and get word meaning

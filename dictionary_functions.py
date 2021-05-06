@@ -8,12 +8,14 @@ dictionary = dictionary.loc[:, ~dictionary.columns.str.contains('^Unnamed')]
 
 
 def get_word_meaning(word):
+    print(dictionary['word'] == word)
+
     return dictionary.loc[dictionary['word'] == word].meaning.iloc[0]
 
 def get_word_type(word):
     return dictionary.loc[dictionary['word'] == word].wtype.iloc[0]
 
 
-get_word_meaning("Abetment")
+print(get_word_meaning("abetment"))
 
 get_word_type("Abetment")
