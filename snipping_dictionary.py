@@ -1,3 +1,8 @@
+"""
+code from SO thread: https://stackoverflow.com/questions/49901928/how-to-take-a-screenshot-with-python-using-a-click-and-drag-method-like-snipping/61603758#61603758
+code credits to SO user: Brett Lapierre
+"""
+
 from tkinter import *
 import pyautogui
 
@@ -20,17 +25,26 @@ class Application():
         # root.configure(background = 'red')
         # root.attributes("-transparentcolor","red")
 
-        root.attributes("-transparent", "blue")
+        root.attributes("-transparent", "green")
         root.geometry('400x400+200+200')  # set new geometry
-        root.title('Lil Snippy')
-        self.menu_frame = Frame(master, bg="blue")
-        self.menu_frame.pack(fill=BOTH, expand=YES)
+        root.title('WORD POWER')
+
+        self.menu_frame = Frame(master, bg="#0080ff")
+        self.menu_frame.pack(fill=X, expand=NO, side=TOP)
 
         self.buttonBar = Frame(self.menu_frame, bg="")
-        self.buttonBar.pack(fill=BOTH, expand=YES)
+        self.buttonBar.pack(fill=BOTH, expand=NO)
 
-        self.snipButton = Button(self.buttonBar, width=3, command=self.createScreenCanvas, background="green")
-        self.snipButton.pack(expand=YES)
+        self.snipButton = Button(self.buttonBar, text="SNIP WORD", command=self.createScreenCanvas, background="#b3ccff")
+        self.snipButton.pack( expand=True)
+
+        self.word_info_frame = LabelFrame(master, bg="#0080ff", text='Word information', borderwidth=5)
+        self.word_info_frame.pack(fill=BOTH, expand=True, side=BOTTOM)
+
+        self.word_info_text = Text(self.word_info_frame, bg="#0080ff")
+        self.word_info_text.insert(INSERT, "Hello.....")
+        self.word_info_text.insert(END, "Bye Bye.....")
+        self.word_info_text.pack()
 
         self.master_screen = Toplevel(root)
         self.master_screen.withdraw()
@@ -42,6 +56,10 @@ class Application():
         self.dictionary = self.dictionary.loc[:, ~self.dictionary.columns.str.contains('^Unnamed')]
 
         self.last_snipped_file = None
+
+    def clear_word_info(self):
+        self.word_info_text.delete("1.0", "end")
+
 
     def get_word_meaning(self, input_word):
         try:
@@ -127,6 +145,11 @@ class Application():
         word_type = self.get_word_type(word)
         print("MEANING:\n {}".format(word_meaning))
         print("WORD TYPE: {}".format(word_type))
+        meaning_data = "Meaning: {} \n\n".format(word_meaning)
+        type_data = "Type: {}".format(word_type)
+        self.word_info_text.insert(END, "Word: {}\n\n".format(word))
+        self.word_info_text.insert(END, meaning_data)
+        self.word_info_text.insert(END, type_data)
 
     def exit_application(self):
         print("Application exit")
@@ -134,6 +157,7 @@ class Application():
 
     def on_button_press(self, event):
         # save mouse drag start position
+        self.clear_word_info()
         self.start_x = self.screenCanvas.canvasx(event.x)
         self.start_y = self.screenCanvas.canvasy(event.y)
 
