@@ -1,4 +1,4 @@
-# CSV-Format-English-Dictionary
+# Sninppable Dictionary
 English dictionary of 176000+ words, compiled into csv format with attributes - (word, type, meaning)
 
 The data in csv format was taken from the following website:
