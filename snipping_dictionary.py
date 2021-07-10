@@ -18,6 +18,7 @@ import datetime
 import pytesseract
 import pandas as pd
 import pyttsx3
+import os
 
 background_color = "#fc4445"
 
@@ -161,7 +162,7 @@ class Application:
         self.screenCanvas.destroy()
         self.master_screen.withdraw()
         root.deiconify()
-        snipped_word_path = 'C:/Users/karthik/Desktop/CSV-Format-English-Dictionary/resources/OCR/' + self.last_snipped_file + '.png'
+        snipped_word_path = os.getcwd() + "\\resources\\ocr\\" + self.last_snipped_file + '.png'
         self.word_power(snipped_word_path)
 
     def word_power(self, snipped_word_path):

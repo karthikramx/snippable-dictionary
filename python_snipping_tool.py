@@ -1,8 +1,6 @@
 from tkinter import *
 import pyautogui
-
 import datetime
-
 
 
 class Application():
