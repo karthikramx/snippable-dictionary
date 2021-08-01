@@ -12,6 +12,7 @@ def get_word_meaning(word):
 
     return dictionary.loc[dictionary['word'] == word].meaning.iloc[0]
 
+
 def get_word_type(word):
     return dictionary.loc[dictionary['word'] == word].wtype.iloc[0]
 
