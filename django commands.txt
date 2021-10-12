@@ -1,0 +1,2 @@
+django-admin startproject website  -- create a new project with website as website name
+python manage.py runserver	   -- run website on your machine
